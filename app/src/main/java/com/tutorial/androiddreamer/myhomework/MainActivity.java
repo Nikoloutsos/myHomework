@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<Note> notes) {
                 //TODO fill the code when List<Note> data changes.
                 Log.d(LOG_TAG, "observed a change");
-                noteAdapter.setNotes(notes);
+                noteAdapter.submitList(notes);
             }
         });
 

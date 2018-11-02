@@ -15,6 +15,7 @@ public class NoteViewModel extends AndroidViewModel {
         super(application);
         noteRepository = new NoteRepository(application);
         allNotes = noteRepository.getAllNotes();
+
     }
 
     public NoteRepository getNoteRepository() {

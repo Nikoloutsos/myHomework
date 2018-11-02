@@ -1,6 +1,8 @@
 package model;
 
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +18,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
-    private final String TAG = "NOTEADAPTER";
-    private List<Note> notes = new ArrayList<>();
+public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
+    private final String TAG = "NoteAdapter";
     private OnItemClickListener listener;
 
-    public NoteAdapter(){}
-
-
-    public NoteAdapter(List<Note> notes) {
-        this.notes = notes;
+    public NoteAdapter() {
+        super(DIFF_CALLBACK);
     }
+    private static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK = new DiffUtil.ItemCallback<Note>() {
+        @Override
+        public boolean areItemsTheSame(Note oldItem, Note newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(Note oldItem, Note newItem) {
+            return oldItem.getSubject().equals(newItem.getSubject()) &&
+                    oldItem.getDescription().equals(newItem.getDescription()) &&
+                    oldItem.getTime() == newItem.getTime();
+        }
+    };
 
     @NonNull
     @Override
@@ -38,17 +49,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        Note currentNote = notes.get(position);
+        Note currentNote = getItem(position);
         holder.tvNoteItemSubject.setText(currentNote.getSubject());
         holder.tvNoteItemDescription.setText(currentNote.getDescription());
         holder.tvNoteItemTime.setText(convertUnixTimeStampInReadableForm(currentNote.getTime()));
 
-    }
-
-    @Override
-    public int getItemCount() {
-        Log.d(TAG, "list size is : " + notes.size());
-        return notes.size();
     }
 
     class NoteHolder extends RecyclerView.ViewHolder{
@@ -63,18 +68,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(notes.get(getAdapterPosition()));
+                    listener.onClick(getItem(getAdapterPosition()));
                 }
             });
         }
     }
 
-    public void setNotes(List<Note> notes){
-        this.notes = notes;
-        Log.d(TAG, "list size when setnotes  is : " + this.notes.size());
-        notifyDataSetChanged();
 
-    }
 
 
     private String convertUnixTimeStampInReadableForm(long timestamp){

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import com.appeaser.sublimepickerlibrary.datepicker.SublimeDatePicker;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -69,10 +70,6 @@ public class AddNoteActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
     }
 
     @Override
@@ -88,6 +85,7 @@ public class AddNoteActivity extends AppCompatActivity {
             case R.id.btn_menu_add_note_activity_save_note:
                 //TODO save data and send it back to mainactivity to create the note and update the db.
                 saveNote();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
