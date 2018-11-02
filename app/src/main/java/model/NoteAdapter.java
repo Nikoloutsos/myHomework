@@ -19,6 +19,7 @@ import java.util.TimeZone;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     private final String TAG = "NOTEADAPTER";
     private List<Note> notes = new ArrayList<>();
+    private OnItemClickListener listener;
 
     public NoteAdapter(){}
 
@@ -58,6 +59,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             tvNoteItemTime = itemView.findViewById(R.id.tv_note_item_time);
             tvNoteItemDescription = itemView.findViewById(R.id.tv_note_item_description);
             tvNoteItemSubject = itemView.findViewById(R.id.tv_note_item_subject);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(notes.get(getAdapterPosition()));
+                }
+            });
         }
     }
 
@@ -75,6 +83,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         sdf.setTimeZone(java.util.TimeZone.getTimeZone(TimeZone.getDefault().toString()));
         String formattedDate = sdf.format(date);
         return formattedDate;
+    }
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener{
+        public void onClick(Note note);
     }
 
 

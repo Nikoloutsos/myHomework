@@ -38,4 +38,12 @@ dependencies {
     //Lifecycle components
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
+
+    //AndroidViewAnimations
+    implementation 'com.android.support:support-compat:27.1.1'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
+    //Data picker
+    implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
 }
