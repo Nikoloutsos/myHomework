@@ -85,16 +85,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Note noteToDelete = noteViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
-                noteViewModel.setLastNote(noteToDelete);
-                noteViewModel.getNoteRepository().deleteNote(noteToDelete);
-                Snackbar.make(findViewById(R.id.cl_activity_main), "note deleted" ,Snackbar.LENGTH_LONG)
-                        .setAction("UNDO", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                noteViewModel.getNoteRepository().insertNote(noteViewModel.getLastNote());
-                            }
-                        }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
+
+                    Note noteToDelete = noteViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
+                    noteViewModel.setLastNote(noteToDelete);
+                    noteViewModel.getNoteRepository().deleteNote(noteToDelete);
+                    Snackbar.make(findViewById(R.id.cl_activity_main), "Note deleted" ,Snackbar.LENGTH_LONG)
+                            .setAction("UNDO", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Snackbar snackbar1 = Snackbar.make(findViewById(R.id.cl_activity_main), "Note restored!", Snackbar.LENGTH_SHORT);
+                                    snackbar1.show();
+                                    noteViewModel.getNoteRepository().insertNote(noteViewModel.getLastNote());
+                                }
+                            }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
+
+                    //TODO congratulation you completed it!
 
             }
         }).attachToRecyclerView(recyclerView);

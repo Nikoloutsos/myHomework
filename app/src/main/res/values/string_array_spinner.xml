@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="orders_array">
+        <item>Time</item>
+        <item>Importance</item>
+    </string-array>
+
+    <string-array name="appearance_array">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+</resources>
