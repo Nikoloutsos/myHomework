@@ -14,10 +14,17 @@ public class NoteRepository {
 
     private LiveData<List<Note>> allNotes;
 
-    public NoteRepository(Application application){
+
+    public NoteRepository(Application application, int order){
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         noteDAO = appDatabase.getNoteDAO();
-        allNotes = noteDAO.getAllNotesOrderedByTime();
+        if(order == 0){
+            allNotes = noteDAO.getAllNotesOrderedByTime();
+        } else {
+            allNotes = noteDAO.getAllNotesOrderedByPriority();
+        }
+
+
     }
 
     //CRUD methods
@@ -39,8 +46,6 @@ public class NoteRepository {
     public LiveData<List<Note>> getAllNotes() {
         return allNotes;
     }
-
-
 
     //AsyncTasks. We need to keep the UI thread away from the heavy work!
     private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void>{

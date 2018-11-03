@@ -4,15 +4,21 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -80,8 +86,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 Note noteToDelete = noteViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
+                noteViewModel.setLastNote(noteToDelete);
                 noteViewModel.getNoteRepository().deleteNote(noteToDelete);
-                Toast.makeText(MainActivity.this, "Note deleted", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.cl_activity_main), "note deleted" ,Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                noteViewModel.getNoteRepository().insertNote(noteViewModel.getLastNote());
+                            }
+                        }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
 
             }
         }).attachToRecyclerView(recyclerView);
@@ -133,6 +146,28 @@ public class MainActivity extends AppCompatActivity {
             Note noteToBeUpdate = new Note(System.currentTimeMillis(), note, subject, importance);
             noteToBeUpdate.setId(id);
             noteViewModel.getNoteRepository().updateNote(noteToBeUpdate);
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main_activity_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btn_menu_main_activity_settings:
+                //TODO save data and send it back to mainactivity to create the note and update the db.
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+
         }
     }
 }
