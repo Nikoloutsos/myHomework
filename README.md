@@ -3,7 +3,7 @@
 myHomework is an android app which allows users to locally save their homework!!
 
 ## Screenshots
-![alt text](https://i.imgur.com/BQbTcX9.png)
+![Alt Text](https://i.imgur.com/U6GBihC.gif)
 
 
 
