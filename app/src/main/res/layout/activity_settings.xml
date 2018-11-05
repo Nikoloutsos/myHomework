@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Order by :"
+        android:text="@string/activity_settings_order_by"
         app:layout_constraintBaseline_toBaselineOf="@+id/sp_activity_settings_order"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Appearance :"
+        android:text="@string/activity_settings_appearance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 

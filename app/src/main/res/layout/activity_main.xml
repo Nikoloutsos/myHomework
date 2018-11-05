@@ -8,11 +8,71 @@
     tools:context=".MainActivity"
     android:id="@+id/cl_activity_main">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_activity_main"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/note_item"/>
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/note_item"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_activity_main_empty_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_activity_main_sad_face"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="sadface, add a note!"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_sad_emoticon" />
+
+            <TextView
+                android:id="@+id/tc_activity_main_its_lonely"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/activity_main_its_lonely"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_activity_main_sad_face" />
+
+            <TextView
+                android:id="@+id/tv_activity_main_get_started"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/activity_main_get_started_by"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                app:layout_constraintStart_toStartOf="@+id/tc_activity_main_its_lonely"
+                app:layout_constraintTop_toBottomOf="@+id/tc_activity_main_its_lonely" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_activity_main_add_note"
@@ -25,5 +85,7 @@
         app:layout_anchorGravity="right|bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+
 
 </android.support.design.widget.CoordinatorLayout>

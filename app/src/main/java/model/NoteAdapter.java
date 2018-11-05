@@ -52,7 +52,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         Note currentNote = getItem(position);
         holder.tvNoteItemSubject.setText(currentNote.getSubject());
         holder.tvNoteItemDescription.setText(currentNote.getDescription());
-        holder.tvNoteItemTime.setText(convertUnixTimeStampInReadableForm(currentNote.getTime()));
+        holder.tvNoteItemTime.setText(DateUtil.convertUnixTimeStampInReadableForm(currentNote.getTime()));
 
     }
 
@@ -77,13 +77,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
 
 
-    private String convertUnixTimeStampInReadableForm(long timestamp){
-        Date date = new java.util.Date(timestamp);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(java.util.TimeZone.getTimeZone(TimeZone.getDefault().toString()));
-        String formattedDate = sdf.format(date);
-        return formattedDate;
-    }
+
 
     public void setListener(OnItemClickListener listener) {
         this.listener = listener;

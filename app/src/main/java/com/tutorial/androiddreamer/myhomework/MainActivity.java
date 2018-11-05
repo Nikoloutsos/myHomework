@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
     private NoteViewModel noteViewModel;
     private RecyclerView recyclerView;
     private FloatingActionButton fabAddNote;
+    private ConstraintLayout clEmptyRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        clEmptyRecyclerView = findViewById(R.id.cl_activity_main_empty_rv);
         fabAddNote = findViewById(R.id.fab_activity_main_add_note);
         fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 //TODO fill the code when List<Note> data changes.
                 Log.d(LOG_TAG, "observed a change");
                 noteAdapter.submitList(notes);
+                if(notes.isEmpty()){
+                    clEmptyRecyclerView.setVisibility(View.VISIBLE);
+                } else{
+                    clEmptyRecyclerView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -93,9 +101,11 @@ public class MainActivity extends AppCompatActivity {
                             .setAction("UNDO", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Snackbar snackbar1 = Snackbar.make(findViewById(R.id.cl_activity_main), "Note restored!", Snackbar.LENGTH_SHORT);
-                                    snackbar1.show();
-                                    noteViewModel.getNoteRepository().insertNote(noteViewModel.getLastNote());
+                                    if(noteViewModel.getLastNote() != null){ //Fix bug where user taps at UNDO button furiously!
+                                        noteViewModel.getNoteRepository().insertNote(noteViewModel.getLastNote());
+                                        noteViewModel.deleteLastNote();
+                                    }
+
                                 }
                             }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
 

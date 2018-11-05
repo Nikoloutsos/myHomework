@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">myHomework</string>
+    <string name="activity_add_note_subject">Subject :</string>
+    <string name="activity_add_note_note">Note :</string>
+    <string name="activity_add_note_importance">Importance :</string>
+    <string name="activity_settings_order_by">Order by :</string>
+    <string name="activity_settings_appearance">Appearance :</string>
+    <string name="activity_main_get_started_by">Get started by adding a note</string>
+    <string name="activity_main_its_lonely">It\'s a bit lonely here...</string>
 </resources>
