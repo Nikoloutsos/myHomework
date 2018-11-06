@@ -6,8 +6,10 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.arch.paging.DataSource;
 
 import java.util.List;
+
 
 @Dao
 public interface NoteDAO {
@@ -24,10 +26,10 @@ public interface NoteDAO {
     public void deleteAllNotes();
 
     @Query("SELECT * from note_table ORDER BY time DESC")
-    public LiveData<List<Note>> getAllNotesOrderedByTime();
+    public DataSource.Factory<Integer, Note> getAllNotesOrderedByTime();
 
     @Query("SELECT * from note_table ORDER BY priority DESC")
-    public LiveData<List<Note>> getAllNotesOrderedByPriority();
+    public DataSource.Factory<Integer, Note> getAllNotesOrderedByPriority();
 
 
 }

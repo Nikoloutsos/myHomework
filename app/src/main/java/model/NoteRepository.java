@@ -2,6 +2,7 @@ package model;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
 import android.arch.persistence.room.Delete;
 import android.os.AsyncTask;
 
@@ -12,7 +13,7 @@ public class NoteRepository {
     private NoteDAO noteDAO;
 
 
-    private LiveData<List<Note>> allNotes;
+    private DataSource.Factory<Integer, Note> allNotes;
 
 
     public NoteRepository(Application application, int order){
@@ -43,7 +44,7 @@ public class NoteRepository {
         new DeleteAllNotesAsyncTask(noteDAO).execute();
     }
 
-    public LiveData<List<Note>> getAllNotes() {
+    public DataSource.Factory<Integer, Note> getAllNotes() {
         return allNotes;
     }
 

@@ -3,6 +3,9 @@ package model;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -13,7 +16,7 @@ import java.util.List;
 
 public class NoteViewModel extends AndroidViewModel {
     private NoteRepository noteRepository;
-    private LiveData<List<Note>> allNotes;
+    private LiveData<PagedList<Note>> allNotes;
     private Note lastNote;
 
 
@@ -27,7 +30,14 @@ public class NoteViewModel extends AndroidViewModel {
         noteRepository = new NoteRepository(application, sharedPref.getInt(
                 SettingsActivity.SHARED_PREFERENCE_ORDER, 0));
 
-        allNotes = noteRepository.getAllNotes();
+        DataSource.Factory<Integer, Note> tempNotes = noteRepository.getAllNotes();
+        LivePagedListBuilder<Integer, Note> livePagedListBuilder = new LivePagedListBuilder<>(tempNotes, 10);
+        allNotes = livePagedListBuilder.build();
+
+
+
+
+
     }
 
     public Note getLastNote() {
@@ -43,7 +53,7 @@ public class NoteViewModel extends AndroidViewModel {
         return noteRepository;
     }
 
-    public LiveData<List<Note>> getAllNotes() {
+    public LiveData<PagedList<Note>> getAllNotes() {
         return allNotes;
     }
 }

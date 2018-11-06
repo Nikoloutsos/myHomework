@@ -4,9 +4,12 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.pdf.PdfDocument;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -27,8 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Note;
-import model.NoteAdapter;
 import model.NoteViewModel;
+import model.PagedListNoteAdapter;
 
 import static com.tutorial.androiddreamer.myhomework.AddNoteActivity.EXTRA_NOTE;
 
@@ -63,27 +66,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.rv_activity_main);
-        final NoteAdapter noteAdapter = new NoteAdapter();
+
+        final PagedListAdapter adapter = new PagedListNoteAdapter(/*Listener when items are clicked */
+                new PagedListNoteAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+                intent.putExtra(EXTRA_MODE, AddNoteActivity.MODE_EDIT_NOTE)
+                        .putExtra(EXTRA_SUBJECT, note.getSubject())
+                        .putExtra(EXTRA_NOTE, note.getDescription())
+                        .putExtra(EXTRA_ID, note.getId())
+                        .putExtra(EXTRA_IMPORTANCE, note.getPriority());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST_CODE);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(noteAdapter);
+        recyclerView.setAdapter(adapter);
 
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
+        noteViewModel.getAllNotes().observe(this, new Observer<PagedList<Note>>() {
             @Override
-            public void onChanged(@Nullable List<Note> notes) {
-                //TODO fill the code when List<Note> data changes.
+            public void onChanged(@Nullable PagedList<Note> notes) {
                 Log.d(LOG_TAG, "observed a change");
-                noteAdapter.submitList(notes);
-                if(notes.isEmpty()){
+                if (notes != null) adapter.submitList(notes);
+                if(notes!=null && notes.isEmpty()){
                     clEmptyRecyclerView.setVisibility(View.VISIBLE);
                 } else{
                     clEmptyRecyclerView.setVisibility(View.GONE);
                 }
             }
         });
-
+        //It just give swipping functionality to the recyclerView.
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -93,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
                     Note noteToDelete = noteViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
                     noteViewModel.setLastNote(noteToDelete);
                     noteViewModel.getNoteRepository().deleteNote(noteToDelete);
@@ -108,25 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                             }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
-
-                    //TODO congratulation you completed it!
-
             }
         }).attachToRecyclerView(recyclerView);
-
-        noteAdapter.setListener(new NoteAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(Note note) {
-                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
-                intent.putExtra(EXTRA_MODE, AddNoteActivity.MODE_EDIT_NOTE)
-                        .putExtra(EXTRA_SUBJECT, note.getSubject())
-                        .putExtra(EXTRA_NOTE, note.getDescription())
-                        .putExtra(EXTRA_ID, note.getId())
-                        .putExtra(EXTRA_IMPORTANCE, note.getPriority());
-                startActivityForResult(intent, EDIT_NOTE_REQUEST_CODE);
-            }
-        });
-
     }
 
 
