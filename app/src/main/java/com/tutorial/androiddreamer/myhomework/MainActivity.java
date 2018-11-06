@@ -127,12 +127,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
     }
 
 
@@ -162,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
             noteToBeUpdate.setId(id);
             noteViewModel.getNoteRepository().updateNote(noteToBeUpdate);
         }
+
+
     }
 
 
@@ -185,4 +181,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 }
