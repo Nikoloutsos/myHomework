@@ -19,12 +19,18 @@
         <activity
             android:name=".AddNoteActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".HistoryActivity"
+            android:parentActivityName=".MainActivity" />
+
     </application>
 
 </manifest>

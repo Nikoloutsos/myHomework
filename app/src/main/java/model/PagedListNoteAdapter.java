@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.tutorial.androiddreamer.myhomework.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAdapter.NoteViewHolder> {
     private OnItemClickListener listener;
 
@@ -52,14 +55,16 @@ public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAd
     }
 
     class NoteViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvNoteItemTime, tvNoteItemDescription, tvNoteItemSubject;
+        @BindView(R.id.tv_note_item_time)
+        TextView tvNoteItemTime;
+        @BindView(R.id.tv_note_item_description)
+        TextView tvNoteItemDescription;
+        @BindView(R.id.tv_note_item_subject)
+        TextView tvNoteItemSubject;
 
         public NoteViewHolder(View itemView) {
             super(itemView);
-            tvNoteItemTime = itemView.findViewById(R.id.tv_note_item_time);
-            tvNoteItemDescription = itemView.findViewById(R.id.tv_note_item_description);
-            tvNoteItemSubject = itemView.findViewById(R.id.tv_note_item_subject);
-
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

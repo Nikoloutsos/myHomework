@@ -21,6 +21,9 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class AddNoteActivity extends AppCompatActivity {
     public static final String EXTRA_SUBJECT = "com.tutorial.androiddreamer.myhomework.EXTRA_SUBJECT";
     public static final String EXTRA_NOTE = "com.tutorial.androiddreamer.myhomework.EXTRA_NOTE";
@@ -30,20 +33,19 @@ public class AddNoteActivity extends AppCompatActivity {
     public static final int MODE_EDIT_NOTE = 1;
     private int id;
 
-    private EditText etSubject, etNote;
-    private NumberPicker npImportance;
+
+    @BindView(R.id.et_activity_add_note_note)
+    EditText etNote;
+    @BindView(R.id.et_activity_add_note_subject)
+    EditText etSubject;
+    @BindView(R.id.np_activity_add_note)
+    NumberPicker npImportance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-        etNote = findViewById(R.id.et_activity_add_note_note);
-        etSubject = findViewById(R.id.et_activity_add_note_subject);
-        npImportance = findViewById(R.id.np_activity_add_note);
-
-
-
-
+        ButterKnife.bind(this);
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
@@ -61,9 +63,6 @@ public class AddNoteActivity extends AppCompatActivity {
             etSubject.setText(data.getStringExtra(MainActivity.EXTRA_SUBJECT));
             etNote.setText(data.getStringExtra(MainActivity.EXTRA_NOTE));
             npImportance.setValue(data.getIntExtra(MainActivity.EXTRA_IMPORTANCE, 1));
-            Log.d("TESTTTTT", "number is : " +
-                    data.getIntExtra(MainActivity.EXTRA_IMPORTANCE, 1) );
-
             id = data.getIntExtra(MainActivity.EXTRA_ID, -1);
 
         }
@@ -85,6 +84,9 @@ public class AddNoteActivity extends AppCompatActivity {
                 //TODO save data and send it back to mainactivity to create the note and update the db.
                 saveNote();
 
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -142,4 +144,10 @@ public class AddNoteActivity extends AppCompatActivity {
                 .playOn(view);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        super.onBackPressed();
+    }
 }

@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/btn_menu_main_activity_history"
+        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:title="history"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/btn_menu_main_activity_settings"
         android:icon="@drawable/ic_settings_white_24dp"
         android:title="settings"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
+
 </menu>

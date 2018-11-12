@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.pdf.PdfDocument;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import model.Note;
 import model.NoteViewModel;
 import model.PagedListNoteAdapter;
@@ -46,27 +49,31 @@ public class MainActivity extends AppCompatActivity {
     public static final int ADD_NOTE_REQUEST_CODE = 1;
     public static final int EDIT_NOTE_REQUEST_CODE = 2;
     private NoteViewModel noteViewModel;
-    private RecyclerView recyclerView;
-    private FloatingActionButton fabAddNote;
-    private ConstraintLayout clEmptyRecyclerView;
+    @BindView(R.id.rv_activity_main)
+    RecyclerView recyclerView;
+    @BindView(R.id.fab_activity_main_add_note)
+    FloatingActionButton fabAddNote;
+    @BindView(R.id.cl_activity_main_empty_rv)
+    ConstraintLayout clEmptyRecyclerView;
+    @BindView(R.id.cl_activity_main)
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        clEmptyRecyclerView = findViewById(R.id.cl_activity_main_empty_rv);
-        fabAddNote = findViewById(R.id.fab_activity_main_add_note);
+        ButterKnife.bind(this);
         fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(MainActivity.this, AddNoteActivity.class)
                                 .putExtra(EXTRA_MODE, AddNoteActivity.MODE_ADD_NOTE),
                         ADD_NOTE_REQUEST_CODE);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+
             }
         });
-        recyclerView = findViewById(R.id.rv_activity_main);
-
         final PagedListAdapter adapter = new PagedListNoteAdapter(/*Listener when items are clicked */
                 new PagedListNoteAdapter.OnItemClickListener() {
             @Override
@@ -78,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         .putExtra(EXTRA_ID, note.getId())
                         .putExtra(EXTRA_IMPORTANCE, note.getPriority());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST_CODE);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable PagedList<Note> notes) {
                 Log.d(LOG_TAG, "observed a change");
+
                 if (notes != null) adapter.submitList(notes);
                 if(notes!=null && notes.isEmpty()){
                     clEmptyRecyclerView.setVisibility(View.VISIBLE);
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     Note noteToDelete = noteViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
                     noteViewModel.setLastNote(noteToDelete);
                     noteViewModel.getNoteRepository().deleteNote(noteToDelete);
-                    Snackbar.make(findViewById(R.id.cl_activity_main), "Note deleted" ,Snackbar.LENGTH_LONG)
+                Snackbar.make(coordinatorLayout, "Note deleted", Snackbar.LENGTH_LONG)
                             .setAction("UNDO", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -125,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,10 +161,7 @@ public class MainActivity extends AppCompatActivity {
             noteToBeUpdate.setId(id);
             noteViewModel.getNoteRepository().updateNote(noteToBeUpdate);
         }
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -171,13 +176,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_menu_main_activity_settings:
                 //TODO save data and send it back to mainactivity to create the note and update the db.
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                return true;
+            case R.id.btn_menu_main_activity_history:
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
-
         }
     }
-
 
 }
