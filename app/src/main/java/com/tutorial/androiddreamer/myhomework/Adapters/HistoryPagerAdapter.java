@@ -1,12 +1,12 @@
-package model;
+package com.tutorial.androiddreamer.myhomework.Adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.tutorial.androiddreamer.myhomework.GraphHistoryFragment;
-import com.tutorial.androiddreamer.myhomework.NoteHistoryFragment;
+import com.tutorial.androiddreamer.myhomework.Fragments.GraphHistoryFragment;
+import com.tutorial.androiddreamer.myhomework.Fragments.ArchivedNoteFragment;
 
 public class HistoryPagerAdapter extends FragmentStatePagerAdapter {
     public static final int NUMBER_OF_FRAGMENTS = 2;
@@ -20,7 +20,7 @@ public class HistoryPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new NoteHistoryFragment();
+                return new ArchivedNoteFragment();
             case 1:
                 return new GraphHistoryFragment();
             default:
@@ -38,9 +38,9 @@ public class HistoryPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "History";
+                return "Archived notes";
             case 1:
-                return "progress";
+                return "Statistics";
             default:
                 return null;
         }

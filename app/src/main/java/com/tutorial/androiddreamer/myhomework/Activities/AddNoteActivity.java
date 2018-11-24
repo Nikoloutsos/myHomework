@@ -1,13 +1,12 @@
-package com.tutorial.androiddreamer.myhomework;
+package com.tutorial.androiddreamer.myhomework.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,29 +19,26 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.tutorial.androiddreamer.myhomework.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AddNoteActivity extends AppCompatActivity {
-    public static final String EXTRA_SUBJECT = "com.tutorial.androiddreamer.myhomework.EXTRA_SUBJECT";
-    public static final String EXTRA_NOTE = "com.tutorial.androiddreamer.myhomework.EXTRA_NOTE";
-    public static final String EXTRA_IMPORTANCE = "com.tutorial.androiddreamer.myhomework.EXTRA_IMPORTANCE";
-    public static final String EXTRA_ID = "com.tutorial.androiddreamer.myhomework.EXTRA_ID";
+    private static final String TAG = "AddNoteActivity";
     public static final int MODE_ADD_NOTE = 0;
     public static final int MODE_EDIT_NOTE = 1;
     private int id;
+    private long time;
 
 
-    @BindView(R.id.et_activity_add_note_note)
-    EditText etNote;
-    @BindView(R.id.et_activity_add_note_subject)
-    EditText etSubject;
-    @BindView(R.id.np_activity_add_note)
-    NumberPicker npImportance;
+    @BindView(R.id.et_activity_add_note_note) EditText etNote;
+    @BindView(R.id.et_activity_add_note_subject) EditText etSubject;
+    @BindView(R.id.np_activity_add_note) NumberPicker npImportance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setUITheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         ButterKnife.bind(this);
@@ -64,10 +60,9 @@ public class AddNoteActivity extends AppCompatActivity {
             etNote.setText(data.getStringExtra(MainActivity.EXTRA_NOTE));
             npImportance.setValue(data.getIntExtra(MainActivity.EXTRA_IMPORTANCE, 1));
             id = data.getIntExtra(MainActivity.EXTRA_ID, -1);
+            time = data.getLongExtra(MainActivity.EXTRA_TIME, 0);
 
         }
-
-
     }
 
     @Override
@@ -114,18 +109,18 @@ public class AddNoteActivity extends AppCompatActivity {
             return;
         }
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_SUBJECT, subject)
-                .putExtra(EXTRA_NOTE, note)
-                .putExtra(EXTRA_IMPORTANCE, importance)
-                .putExtra(EXTRA_ID, id);
+        intent.putExtra(MainActivity.EXTRA_SUBJECT, subject)
+                .putExtra(MainActivity.EXTRA_NOTE, note)
+                .putExtra(MainActivity.EXTRA_IMPORTANCE, importance)
+                .putExtra(MainActivity.EXTRA_ID, id)
+                .putExtra(MainActivity.EXTRA_TIME, time);
 
         setResult(RESULT_OK, intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
 
     }
-
-
 
 
     private void changeStatusBarColor(String color) {
@@ -144,10 +139,16 @@ public class AddNoteActivity extends AppCompatActivity {
                 .playOn(view);
     }
 
+    private void setUITheme(){
+
+    }
+
 
     @Override
     public void onBackPressed() {
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
+
+
 }

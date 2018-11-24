@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:id="@+id/cl_activity_main">
+    tools:context=".Activities.MainActivity"
+    android:background="#f1f1f1">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_activity_main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,12 +19,13 @@
             android:id="@+id/rv_activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/note_item"/>
+            tools:listitem="@layout/note_item" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cl_activity_main_empty_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,10 +35,10 @@
                 android:id="@+id/iv_activity_main_sad_face"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="sadface, add a note!"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,9 +50,9 @@
                 android:id="@+id/tc_activity_main_its_lonely"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/activity_main_its_lonely"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -66,6 +69,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintStart_toStartOf="@+id/tc_activity_main_its_lonely"
                 app:layout_constraintTop_toBottomOf="@+id/tc_activity_main_its_lonely" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -85,7 +89,6 @@
         app:layout_anchorGravity="right|bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 
 </android.support.design.widget.CoordinatorLayout>

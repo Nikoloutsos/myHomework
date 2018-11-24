@@ -3,8 +3,7 @@ package com.tutorial.androiddreamer.myhomework;
 import org.junit.Assert;
 import org.junit.Test;
 
-import model.DateUtil;
-import model.NoteAdapter;
+import com.tutorial.androiddreamer.myhomework.Helpers.DateUtil;
 
 
 

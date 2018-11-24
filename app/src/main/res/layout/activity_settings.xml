@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".Activities.SettingsActivity">
 
     <TextView
         android:id="@+id/textView4"
@@ -40,4 +40,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@+id/sp_activity_settings_order" />
+
 </android.support.constraint.ConstraintLayout>

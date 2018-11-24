@@ -1,13 +1,10 @@
-package model;
+package com.tutorial.androiddreamer.myhomework.Model;
 
-
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "note_table")
-public class Note {
-
+@Entity(tableName = "Archived_note_table")
+public class ArchivedNote {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -19,8 +16,7 @@ public class Note {
 
     private int priority;
 
-
-    public Note(long time, String description, String subject, int priority) {
+    public ArchivedNote(long time, String description, String subject, int priority) {
         this.time = time;
         this.description = description;
         this.subject = subject;

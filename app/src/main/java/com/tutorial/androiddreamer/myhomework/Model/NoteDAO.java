@@ -1,6 +1,5 @@
-package model;
+package com.tutorial.androiddreamer.myhomework.Model;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -8,7 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.arch.paging.DataSource;
 
-import java.util.List;
+import com.tutorial.androiddreamer.myhomework.Model.Note;
 
 
 @Dao
@@ -30,6 +29,5 @@ public interface NoteDAO {
 
     @Query("SELECT * from note_table ORDER BY priority DESC")
     public DataSource.Factory<Integer, Note> getAllNotesOrderedByPriority();
-
 
 }

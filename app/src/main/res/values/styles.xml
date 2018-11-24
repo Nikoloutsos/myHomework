@@ -12,4 +12,14 @@
         <item name="backgroundTint">@color/colorPrimary</item>
     </style>
 
+    <style name="DarkTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorAccent">#09ff16</item>
+    </style>
+
+    <style name="DarkThemeListItem">
+        <item name="android:background">#000000</item>
+        <item name="android:textColor">#ffffff</item>
+
+    </style>
+
 </resources>

@@ -12,23 +12,23 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="?android:attr/selectableItemBackground">
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/tv_note_item_description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="serif"
             android:textAppearance="@android:style/TextAppearance.Material.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_note_item_importance"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_note_item_subject"
             tools:text="Students Book page 32-35 \ncompanion 22-23" />
@@ -49,16 +49,30 @@
             android:id="@+id/tv_note_item_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto"
             android:textAppearance="@android:style/TextAppearance.Material.Notification.Time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_note_item_subject"
-            app:layout_constraintTop_toTopOf="@+id/tv_note_item_subject"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="24/10/2018" />
+
+        <TextView
+            android:id="@+id/tv_note_item_importance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_textview"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="@+id/tv_note_item_time"
+            app:layout_constraintHorizontal_bias="0.625"
+            app:layout_constraintStart_toStartOf="@+id/tv_note_item_time"
+            app:layout_constraintTop_toBottomOf="@+id/tv_note_item_time" />
 
 
     </android.support.constraint.ConstraintLayout>
