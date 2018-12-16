@@ -18,14 +18,14 @@ import com.tutorial.androiddreamer.myhomework.ViewModels.OverviewActivityViewMod
 
 
 public class OverviewActivity extends AppCompatActivity {
-    OverviewActivityViewModel overviewActivityViewModel;
+    OverviewActivityViewModel viewModel;
     HistoryPagerAdapter historyPagerAdapter;
     @BindView(R.id.vp_activity_history) ViewPager viewPager;
     @BindView(R.id.tl_activity_history) TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overviewActivityViewModel = ViewModelProviders.of(this).get(OverviewActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(OverviewActivityViewModel.class);
         setUITheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
@@ -54,12 +54,12 @@ public class OverviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     private void setUITheme(){
-        switch (overviewActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
+        switch (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
             case 0:
                 setTheme(R.style.AppTheme);
                 break;
@@ -72,7 +72,18 @@ public class OverviewActivity extends AppCompatActivity {
 
     private void setUIThemeForElements(){
         //TODO use the right colors!
-        tabLayout.setBackgroundColor(Color.parseColor("#ff212121"));
-        viewPager.setBackgroundColor(Color.parseColor("#ff212121"));
+
+        switch (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
+            case 0:
+
+                break;
+            case 1:
+                tabLayout.setBackgroundColor(Color.parseColor("#ff212121"));
+                viewPager.setBackgroundColor(Color.parseColor("#ff212121"));
+                break;
+        }
+
+
+
     }
 }

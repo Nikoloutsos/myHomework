@@ -43,7 +43,9 @@ public class MainActivityViewModel extends AndroidViewModel {
     public Note getLastNote() {
         return lastNote;
     }
-    public void deleteLastNote() {lastNote = null;}
+    public void deleteLastNote() {
+        lastNote = null;
+    }
     public void setLastNote(Note lastNote) {
         this.lastNote = lastNote;
     }

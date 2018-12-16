@@ -1,17 +1,20 @@
 package com.tutorial.androiddreamer.myhomework.Adapters;
 
+import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tutorial.androiddreamer.myhomework.Helpers.ColorChooser;
 import com.tutorial.androiddreamer.myhomework.Helpers.DateUtil;
@@ -22,9 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, PagedListArchiveNoteAdapter.ArchivedNoteViewHolder > {
-
-    public PagedListArchiveNoteAdapter() {
+    LongClickListener listener;
+    public PagedListArchiveNoteAdapter(LongClickListener listener) {
         super(DIFF_CALLBACK);
+        this.listener = listener;
     }
 
     private static final DiffUtil.ItemCallback<ArchivedNote> DIFF_CALLBACK = new DiffUtil.ItemCallback<ArchivedNote>() {
@@ -40,7 +44,7 @@ public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, 
         }
     };
 
-    class ArchivedNoteViewHolder extends RecyclerView.ViewHolder {
+    class ArchivedNoteViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         @BindView(R.id.tv_note_item_time) TextView tvNoteItemTime;
         @BindView(R.id.tv_note_item_description) TextView tvNoteItemDescription;
         @BindView(R.id.tv_note_item_subject) TextView tvNoteItemSubject;
@@ -48,6 +52,20 @@ public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, 
         public ArchivedNoteViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Select The Action");
+            MenuItem complete =  menu.add(0, v.getId(), 0, "Delete");//groupId, itemId, order, title
+            complete.setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            if(item.getTitle().toString().equalsIgnoreCase("Delete")) listener.onLongClick(getItem(getAdapterPosition()));
+            return true;
         }
     }
 
@@ -70,4 +88,9 @@ public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, 
         holder.tvCircularImportance.setText("" + currentNote.getPriority());
 
     }
+
+    public interface LongClickListener{
+        public void onLongClick(ArchivedNote archivedNote);
+    }
+
 }

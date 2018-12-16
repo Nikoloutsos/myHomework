@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity {
     private int appearanceMode;
     private int orderMode;
 
-    private MainActivityViewModel mainActivityViewModel;
+    private MainActivityViewModel viewModel;
     @BindView(R.id.rv_activity_main) RecyclerView recyclerView;
     @BindView(R.id.fab_activity_main_add_note) FloatingActionButton fabAddNote;
     @BindView(R.id.cl_activity_main_empty_rv) ConstraintLayout clEmptyRecyclerView;
     @BindView(R.id.cl_activity_main) CoordinatorLayout coordinatorLayout;
     @BindView(R.id.cl_activity_main_container) ConstraintLayout constraintLayoutContainer;
-    @BindView(R.id.tc_activity_main_its_lonely) TextView tvGetStarted;
+    @BindView(R.id.tc_activity_main_its_lonely) TextView tvEmptyListLonely;
     @BindView(R.id.tv_activity_main_get_started) TextView tvGetStartedAddaNote;
 
     PagedListAdapter adapter;
@@ -69,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         setUITheme();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setUIThemeForElements();
+        setTitle("My notes");
         fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
                     archiveNote(note);
                 }else if(str.equalsIgnoreCase(getResources().getString(R.string.edit))){
                     editNote(note);
-                }else if(str.equalsIgnoreCase(getResources().getString(R.string.delete))){
-                    deleteNote(note);
+                }else if(str.equalsIgnoreCase(getResources().getString(R.string.share))){
+                    shareNote(note);
                 }
             }
         });
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
-        mainActivityViewModel.getAllNotes().observe(this, new Observer<PagedList<Note>>() {
+        viewModel.getAllNotes().observe(this, new Observer<PagedList<Note>>() {
             @Override
             public void onChanged(@Nullable PagedList<Note> notes) {
                 Log.d(TAG, "observed a change");
@@ -136,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
             int importance = data.getIntExtra(EXTRA_IMPORTANCE,1);
 
             Note newNote = new Note(System.currentTimeMillis(), note, subject, importance);
-            mainActivityViewModel.getNoteRepository().insertNote(newNote);
+            viewModel.getNoteRepository().insertNote(newNote);
+            viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotes(); //statistics
             Toast.makeText(this, getResources().getString(R.string.note_saved_succesfully), Toast.LENGTH_SHORT).show();
-
         }
 
         if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode == RESULT_OK){
@@ -150,18 +151,19 @@ public class MainActivity extends AppCompatActivity {
 
             Note noteToBeUpdate = new Note(System.currentTimeMillis(), note, subject, importance);
             noteToBeUpdate.setId(id);
-            mainActivityViewModel.getNoteRepository().updateNote(noteToBeUpdate);
+            viewModel.getNoteRepository().updateNote(noteToBeUpdate);
+            viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesEdited();
         }
 
         if(requestCode == ALTER_SETTINGS_REQUEST_CODE && resultCode == RESULT_OK){
             //Checking if theme has changed. In this way I am keeping the animation!
 
-            if(appearanceMode != mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
+            if(appearanceMode != viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
                 recreate(); //if appearance changed then recreate!
-            }else if(orderMode != mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefOrder()) { //we make animation transition in this way!
-                mainActivityViewModel.getAllNotesOrderedByTime().removeObservers(this);
-                mainActivityViewModel.getAllNotesOrderedByImportance().removeObservers(this);
-                mainActivityViewModel.getAllNotes().observe(this, new Observer<PagedList<Note>>() {
+            }else if(orderMode != viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefOrder()) { //we make animation transition in this way!
+                viewModel.getAllNotesOrderedByTime().removeObservers(this);
+                viewModel.getAllNotesOrderedByImportance().removeObservers(this);
+                viewModel.getAllNotes().observe(this, new Observer<PagedList<Note>>() {
                     @Override
                     public void onChanged(@Nullable PagedList<Note> notes) {
                         Log.d(TAG, "observed a change");
@@ -191,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.btn_menu_main_activity_settings:
                 //save apperancemode and ordermode and check for updates when settings activity finishes
-                appearanceMode = mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme();
-                orderMode = mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefOrder();
+                appearanceMode = viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme();
+                orderMode = viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefOrder();
                 startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class)
                         .setFlags( FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP), ALTER_SETTINGS_REQUEST_CODE);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
@@ -210,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-                Note noteToDelete = mainActivityViewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
+                Note noteToDelete = viewModel.getAllNotes().getValue().get(viewHolder.getAdapterPosition());
                 deleteNote(noteToDelete);
             }
         };
@@ -221,15 +223,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void deleteNote(Note note){
-        mainActivityViewModel.setLastNote(note);
-        mainActivityViewModel.getNoteRepository().deleteNote(note);
+        viewModel.setLastNote(note);
+        viewModel.getNoteRepository().deleteNote(note);
+        viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesDeleted();
         Snackbar.make(coordinatorLayout, getResources().getString(R.string.note_deleted_succesfully), Snackbar.LENGTH_LONG)
                 .setAction(getResources().getString(R.string.undo_button_snackbar), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(mainActivityViewModel.getLastNote() != null){ //Fix bug where user taps at UNDO button furiously!
-                            mainActivityViewModel.getNoteRepository().insertNote(mainActivityViewModel.getLastNote());
-                            mainActivityViewModel.deleteLastNote();
+                        if(viewModel.getLastNote() != null){ //Fix bug where user taps at UNDO button furiously!
+                            viewModel.getNoteRepository().insertNote(viewModel.getLastNote());
+                            viewModel.deleteLastNote();
                         }
 
                     }
@@ -251,13 +254,23 @@ public class MainActivity extends AppCompatActivity {
     private void archiveNote(Note note){
         //It should update the database that the note was completed.
         ArchivedNote archivedNote = new ArchivedNote(note.getTime(), note.getDescription(), note.getSubject(), note.getPriority());
-        mainActivityViewModel.getArchivedNoteRepository().addArchivedNote(archivedNote);
+        viewModel.getArchivedNoteRepository().addArchivedNote(archivedNote);
+        viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesArchived();
         Toast.makeText(MainActivity.this, "Note archived", Toast.LENGTH_SHORT).show();
+    }
+
+    private void shareNote(Note note){
+        viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesShared();
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, note.getSubject());
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, note.getDescription());
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_note_using)));
 
     }
 
     private void setUITheme(){
-        switch (mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
+        switch (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
             case SettingsActivity.APPEARANCE_LIGHT:
                 break;
             case SettingsActivity.APPEARANCE_BLACK:
@@ -267,17 +280,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUIThemeForElements(){
-        if(mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
-            coordinatorLayout.setBackgroundColor(Color.WHITE);
-            tvGetStarted.setTextColor(Color.BLACK);
-            tvGetStarted.setTextColor(Color.BLACK);
-        }else if(mainActivityViewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
-            coordinatorLayout.setBackgroundColor(Color.GRAY);
-            tvGetStarted.setTextColor(Color.WHITE);
-            tvGetStarted.setTextColor(Color.WHITE);
+        if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
+//            coordinatorLayout.setBackgroundColor(Color.parseColor("#f1f1f1"));
+//            tvEmptyListLonely.setTextColor(Color.BLACK);
+        }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
+            coordinatorLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
+            tvEmptyListLonely.setTextColor(Color.WHITE);
+            tvGetStartedAddaNote.setTextColor(Color.WHITE);
 
         }
     }
+
+
 
 }
 

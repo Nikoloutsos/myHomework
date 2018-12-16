@@ -1,5 +1,6 @@
 package com.tutorial.androiddreamer.myhomework.Adapters;
 
+import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.graphics.Color;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tutorial.androiddreamer.myhomework.Activities.SettingsActivity;
 import com.tutorial.androiddreamer.myhomework.Helpers.ColorChooser;
 import com.tutorial.androiddreamer.myhomework.Helpers.DateUtil;
 import com.tutorial.androiddreamer.myhomework.Model.Note;
@@ -93,7 +93,7 @@ public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAd
             menu.setHeaderTitle("Select The Action");
            MenuItem complete =  menu.add(0, v.getId(), 0, context.getResources().getString(R.string.archive));//groupId, itemId, order, title
            MenuItem edit =  menu.add(0, v.getId(), 0, context.getResources().getString(R.string.edit));//groupId, itemId, order, title
-           MenuItem delete =  menu.add(0, v.getId(), 0, context.getResources().getString(R.string.delete));//groupId, itemId, order, title
+           MenuItem delete =  menu.add(0, v.getId(), 0, context.getResources().getString(R.string.share));//groupId, itemId, order, title
            complete.setOnMenuItemClickListener(this);
            edit.setOnMenuItemClickListener(this);
            delete.setOnMenuItemClickListener(this);
@@ -105,8 +105,8 @@ public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAd
                 listener2.onLongClick(getItem(getAdapterPosition()), context.getResources().getString(R.string.archive));
             }else if (menuItem.getTitle().toString().equalsIgnoreCase(context.getResources().getString(R.string.edit))){
                 listener2.onLongClick(getItem(getAdapterPosition()), context.getResources().getString(R.string.edit));
-            }else if(menuItem.getTitle().toString().equalsIgnoreCase(context.getResources().getString(R.string.delete))){
-                listener2.onLongClick(getItem(getAdapterPosition()), context.getResources().getString(R.string.delete));
+            }else if(menuItem.getTitle().toString().equalsIgnoreCase(context.getResources().getString(R.string.share))){
+                listener2.onLongClick(getItem(getAdapterPosition()), context.getResources().getString(R.string.share));
             }
             return false;
         }
@@ -121,6 +121,11 @@ public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAd
 
     public OnItemClickListener getListener() {
         return listener;
+    }
+
+    @Override
+    public void submitList(PagedList<Note> pagedList) {
+        super.submitList(pagedList);
     }
 }
 

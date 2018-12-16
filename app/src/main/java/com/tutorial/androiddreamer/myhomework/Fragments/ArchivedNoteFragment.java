@@ -3,14 +3,20 @@ package com.tutorial.androiddreamer.myhomework.Fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tutorial.androiddreamer.myhomework.Adapters.PagedListArchiveNoteAdapter;
 import com.tutorial.androiddreamer.myhomework.Model.ArchivedNote;
@@ -25,6 +31,9 @@ public class ArchivedNoteFragment extends Fragment {
     private ArchivedNoteFragmentViewModel viewModel;
     private PagedListArchiveNoteAdapter adapter;
     @BindView(R.id.rv_fragment_archived_note) RecyclerView recyclerView;
+    @BindView(R.id.cl_empty_list_fragment_arch_note) ConstraintLayout emptyView;
+    @BindView(R.id.imageView_empty_list) ImageView emptyListImage;
+    @BindView(R.id.tc_activity_main_its_lonely) TextView  tvEmptyListImage;
 
     public ArchivedNoteFragment() {
         // Required empty public constructor
@@ -44,7 +53,14 @@ public class ArchivedNoteFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(ArchivedNoteFragmentViewModel.class);
-        adapter = new PagedListArchiveNoteAdapter();
+        setUIThemeForElements();
+        PagedListArchiveNoteAdapter.LongClickListener listener = new PagedListArchiveNoteAdapter.LongClickListener() {
+            @Override
+            public void onLongClick(ArchivedNote archivedNote) {
+                viewModel.getArchivedNoteRepository().deleteArchivedNote(archivedNote);
+            }
+        };
+        adapter = new PagedListArchiveNoteAdapter(listener);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -53,11 +69,21 @@ public class ArchivedNoteFragment extends Fragment {
             @Override
             public void onChanged(@Nullable PagedList<ArchivedNote> archivedNotes) {
                 if(archivedNotes != null) adapter.submitList(archivedNotes);
+                if(archivedNotes.isEmpty()){
+                    emptyView.setVisibility(View.VISIBLE);
+                }else{
+                    emptyView.setVisibility(View.GONE);
+                }
             }
         });
+    }
 
-
-
-
+    // TODO: 12/4/2018
+    private void setUIThemeForElements(){
+        if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
+        }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
+            emptyListImage.setImageResource(R.drawable.ic_whitebox);
+            tvEmptyListImage.setTextColor(Color.WHITE);
+        }
     }
 }

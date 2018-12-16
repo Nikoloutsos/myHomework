@@ -5,12 +5,11 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
 import com.tutorial.androiddreamer.myhomework.Model.SharedPrefRepository;
-import com.tutorial.androiddreamer.myhomework.Model.SharedPreferencesDAO;
 
-public class OverviewActivityViewModel extends AndroidViewModel {
+public class GraphHistoryFragmentViewModel extends AndroidViewModel {
     private SharedPrefRepository sharedPrefRepository;
 
-    public OverviewActivityViewModel(@NonNull Application application) {
+    public GraphHistoryFragmentViewModel(@NonNull Application application) {
         super(application);
         sharedPrefRepository = new SharedPrefRepository(application);
     }
@@ -18,6 +17,4 @@ public class OverviewActivityViewModel extends AndroidViewModel {
     public SharedPrefRepository getSharedPrefRepository() {
         return sharedPrefRepository;
     }
-
-
 }

@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_Subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -32,12 +32,12 @@
         android:hint="e.x Spanish lesson"
         android:inputType="text"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_Subject"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/tv_Subject" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_activity_add_note_subject" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_importance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -69,6 +69,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/activity_add_note_importance"
         android:textColor="@color/colorPrimaryDark"
+        
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_activity_add_note_note"
@@ -81,5 +82,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="@+id/et_activity_add_note_note"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_importance" />
 </android.support.constraint.ConstraintLayout>

@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--Light theme -->
     <color name="colorPrimary">#00796b</color>
     <color name="colorPrimaryDark">#004c40</color>
     <color name="colorAccent">#ffa726</color>
     <color name="colorAccent_dark">#c77800</color>
     <color name="colorAccent_light">#ffd95b</color>
+    <color name="LightGrayBackground">#f1f1f1</color>
+
+    <!--Dark theme -->
+    <color name="DarkColorAccent">#57e93a</color>
+    <color name="DarkColorPrimaryDark">@color/primary_dark_material_dark</color>
+    <color name="DarkColorPrimary">@color/primary_material_dark</color>
+    <color name="DarkGrayBackground">#4d4d4d</color>
+
+
+
 </resources>

@@ -13,7 +13,9 @@
     </style>
 
     <style name="DarkTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorAccent">#09ff16</item>
+        <item name="colorAccent">@color/DarkColorAccent</item>
+
+
     </style>
 
     <style name="DarkThemeListItem">

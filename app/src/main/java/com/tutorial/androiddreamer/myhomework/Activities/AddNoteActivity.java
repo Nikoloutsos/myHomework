@@ -1,12 +1,18 @@
 package com.tutorial.androiddreamer.myhomework.Activities;
 
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,11 +21,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.tutorial.androiddreamer.myhomework.Helpers.ActivityMethods;
 import com.tutorial.androiddreamer.myhomework.R;
+import com.tutorial.androiddreamer.myhomework.ViewModels.AddNoteActivityViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,24 +37,41 @@ public class AddNoteActivity extends AppCompatActivity {
     private static final String TAG = "AddNoteActivity";
     public static final int MODE_ADD_NOTE = 0;
     public static final int MODE_EDIT_NOTE = 1;
+    private AddNoteActivityViewModel viewModel;
     private int id;
     private long time;
 
 
+    @BindView(R.id.tv_importance) TextView tv_importance;
+    @BindView(R.id.tv_note) TextView tv_note;
+    @BindView(R.id.tv_Subject) TextView tv_subject;
+    @BindView(R.id.cl_activity_add_note_parentview) ConstraintLayout cl_parentLayout;
     @BindView(R.id.et_activity_add_note_note) EditText etNote;
     @BindView(R.id.et_activity_add_note_subject) EditText etSubject;
     @BindView(R.id.np_activity_add_note) NumberPicker npImportance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(AddNoteActivityViewModel.class);
         setUITheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         ButterKnife.bind(this);
+        setUIThemeForElements();
+        npImportance.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                viewModel.setPrioritySelected(newVal);
+            }
+        });
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
-        changeStatusBarColor("#c77800");
+        etSubject.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) viewModel.setUserHasInteracted(true);
+            }
+        });
+
         Intent data = getIntent();
         int mode = data.getIntExtra(MainActivity.EXTRA_MODE,0);
 
@@ -54,6 +80,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         if (mode==MODE_ADD_NOTE){
             setTitle("Add note");
+            npImportance.setValue(viewModel.getPrioritySelected());
         } else{
             setTitle("Edit note");
             etSubject.setText(data.getStringExtra(MainActivity.EXTRA_SUBJECT));
@@ -76,7 +103,7 @@ public class AddNoteActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btn_menu_add_note_activity_save_note:
-                //TODO save data and send it back to mainactivity to create the note and update the db.
+
                 saveNote();
 
                 return true;
@@ -139,16 +166,61 @@ public class AddNoteActivity extends AppCompatActivity {
                 .playOn(view);
     }
 
-    private void setUITheme(){
-
-    }
-
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        if(!viewModel.getUserHasInteracted()){ //If user hasn't interacted with the UI
+            super.onBackPressed();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        }else{
+            showAlertDialog();
+        }
+
+    }
+    private void showAlertDialog(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(R.string.discard_changes_msg);
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setPositiveButton(R.string.discard_btn, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // continue with discard
+                viewModel.setUserHasInteracted(false);
+                onBackPressed();
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton(R.string.keep_editing_button, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+            }
+        });
+        ActivityMethods.hideKeyboard(this);
+        alertDialogBuilder.show();
     }
 
+    private void setUITheme(){
+        if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
+            setTheme(R.style.AppTheme);
+        }else{
+            setTheme(R.style.DarkTheme);
+        }
+    }
+    private void setUIThemeForElements(){
+        if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
+            cl_parentLayout.setBackgroundColor(Color.WHITE);
+            tv_importance.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tv_subject.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tv_note.setTextColor(getResources().getColor(R.color.colorPrimary));
+        }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
+            cl_parentLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
+            tv_importance.setTextColor(Color.WHITE);
+            tv_subject.setTextColor(Color.WHITE);
+            tv_note.setTextColor(Color.WHITE);
+            etSubject.setTextColor(Color.WHITE);
+            etSubject.setHintTextColor(Color.WHITE);
+            etNote.setTextColor(Color.WHITE);
+            etNote.setHintTextColor(Color.WHITE);
+            ActivityMethods.setNumberPickerTextColor(npImportance, Color.WHITE);
 
+        }
+    }
 }
