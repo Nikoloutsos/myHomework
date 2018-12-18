@@ -281,8 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUIThemeForElements(){
         if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
-//            coordinatorLayout.setBackgroundColor(Color.parseColor("#f1f1f1"));
-//            tvEmptyListLonely.setTextColor(Color.BLACK);
+
         }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
             coordinatorLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
             tvEmptyListLonely.setTextColor(Color.WHITE);
@@ -290,8 +289,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
-
 }
 
