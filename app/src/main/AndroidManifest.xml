@@ -11,14 +11,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.AddNoteActivity"
             android:parentActivityName=".Activities.MainActivity" />
+
         <activity
             android:name=".Activities.SettingsActivity"
             android:parentActivityName=".Activities.MainActivity" />

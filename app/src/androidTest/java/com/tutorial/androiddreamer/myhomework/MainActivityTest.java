@@ -5,6 +5,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 
 import com.tutorial.androiddreamer.myhomework.Activities.MainActivity;
+import com.tutorial.androiddreamer.myhomework.Model.AppDatabase;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -49,6 +50,8 @@ public class MainActivityTest {
                 .actionOnItemAtPosition(0,swipeLeft()));
 
     }
+
+
 
 
 

@@ -35,11 +35,14 @@ import com.tutorial.androiddreamer.myhomework.ViewModels.MainActivityViewModel;
 import com.tutorial.androiddreamer.myhomework.Adapters.PagedListNoteAdapter;
 import com.tutorial.androiddreamer.myhomework.Helpers.SwipeToDeleteCallback;
 
+import java.util.Observable;
+
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+
     public static final String EXTRA_MODE = "com.tutorial.androiddreamer.myhomework.EXTRA_MODE";
     public static final String EXTRA_SUBJECT = "com.tutorial.androiddreamer.myhomework.EXTRA_SUBJECT ";
     public static final String EXTRA_NOTE = "com.tutorial.androiddreamer.myhomework.EXTRA_NOTE";
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "com.tutorial.androiddreamer.myhomework.EXTRA_ID";
     public static final String EXTRA_TIME = "com.tutorial.androiddreamer.myhomework.EXTRA_TIME";
 
+    private MainActivityViewModel viewModel;
+    private PagedListAdapter adapter;
 
     public static final int ADD_NOTE_REQUEST_CODE = 1;
     public static final int EDIT_NOTE_REQUEST_CODE = 2;
@@ -55,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private int appearanceMode;
     private int orderMode;
 
-    private MainActivityViewModel viewModel;
     @BindView(R.id.rv_activity_main) RecyclerView recyclerView;
     @BindView(R.id.fab_activity_main_add_note) FloatingActionButton fabAddNote;
     @BindView(R.id.cl_activity_main_empty_rv) ConstraintLayout clEmptyRecyclerView;
@@ -63,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.cl_activity_main_container) ConstraintLayout constraintLayoutContainer;
     @BindView(R.id.tc_activity_main_its_lonely) TextView tvEmptyListLonely;
     @BindView(R.id.tv_activity_main_get_started) TextView tvGetStartedAddaNote;
-
-    PagedListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
 
@@ -263,8 +265,11 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesShared();
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, note.getSubject());
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, note.getDescription());
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                "Title : " + note.getSubject()+ "\n" +
+                "Note: "  + note.getDescription());
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                note.getSubject());
         startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_note_using)));
 
     }
