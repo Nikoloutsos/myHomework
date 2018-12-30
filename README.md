@@ -1,6 +1,9 @@
-# myHomework  :books:
+# myHomework ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-[myHomework](https://play.google.com/store/apps/details?id=com.tutorial.androiddreamer.myhomework&hl=en) is a simple android app allowing users to locally save their homework/notes!!
+myHomework is a simple android app allowing users to locally save their homework/notes!!
+
+[<img alt="Get it on Google Play" height="80" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png">](https://play.google.com/store/apps/details?id=com.tutorial.androiddreamer.myhomework&hl=en)
+
 
 ## Todo-list
 - [ ] In MainActivity RecyclerView items should have same height.
@@ -10,6 +13,7 @@
 
 ## Contributors
 Xanthos Xanthopoulos [@XanthosXanthopoulos](https://github.com/XanthosXanthopoulos)
+
 
 
 
