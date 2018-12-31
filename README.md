@@ -9,7 +9,7 @@ myHomework is a simple android app allowing users to locally save their homework
 - [ ] In MainActivity RecyclerView items should have same height.
 - [ ] Create a DisplayNoteActivity where user will only be able to see the note.
 - [ ] Make Unit and Instrumented tests.
-- [ ] Refactor AddNoteActivity's UI.
+- [x] Refactor AddNoteActivity's UI.
 
 ## Contributors
 Xanthos Xanthopoulos [@XanthosXanthopoulos](https://github.com/XanthosXanthopoulos)
