@@ -9,6 +9,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,12 +45,14 @@ public class AddNoteActivity extends AppCompatActivity {
 
 
     @BindView(R.id.tv_importance) TextView tv_importance;
-    @BindView(R.id.tv_note) TextView tv_note;
-    @BindView(R.id.tv_Subject) TextView tv_subject;
     @BindView(R.id.cl_activity_add_note_parentview) ConstraintLayout cl_parentLayout;
-    @BindView(R.id.et_activity_add_note_note) EditText etNote;
-    @BindView(R.id.et_activity_add_note_subject) EditText etSubject;
     @BindView(R.id.np_activity_add_note) NumberPicker npImportance;
+    @BindView(R.id.et_activity_add_note_subject) TextInputEditText etSubject;
+    @BindView(R.id.et_activity_add_note_description) TextInputEditText etNote;
+    @BindView(R.id.et_activity_add_note_description_layout) TextInputLayout etNoteLayout;
+    @BindView(R.id.et_activity_add_note_subject_layout) TextInputLayout etSubjectLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,8 +129,8 @@ public class AddNoteActivity extends AppCompatActivity {
 
         if (subject.trim().isEmpty() || note.trim().isEmpty()) {
             if(subject.trim().isEmpty() && note.trim().isEmpty()){
-                shakeView(etNote);
-                shakeView(etSubject);
+                shakeView(etNoteLayout);
+                shakeView(etSubjectLayout);
             }else if(subject.trim().isEmpty()) shakeView(etSubject);
             else if(note.trim().isEmpty()) shakeView(etNote);
 
@@ -145,8 +149,6 @@ public class AddNoteActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-
-
     }
 
 
@@ -208,19 +210,13 @@ public class AddNoteActivity extends AppCompatActivity {
         if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
             cl_parentLayout.setBackgroundColor(Color.WHITE);
             tv_importance.setTextColor(getResources().getColor(R.color.colorPrimary));
-            tv_subject.setTextColor(getResources().getColor(R.color.colorPrimary));
-            tv_note.setTextColor(getResources().getColor(R.color.colorPrimary));
         }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
             cl_parentLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
             tv_importance.setTextColor(Color.WHITE);
-            tv_subject.setTextColor(Color.WHITE);
-            tv_note.setTextColor(Color.WHITE);
-            etSubject.setTextColor(Color.WHITE);
-            etSubject.setHintTextColor(Color.WHITE);
             etNote.setTextColor(Color.WHITE);
+            etSubject.setTextColor(Color.WHITE);
             etNote.setHintTextColor(Color.WHITE);
             ActivityMethods.setNumberPickerTextColor(npImportance, Color.WHITE);
-
         }
     }
 }

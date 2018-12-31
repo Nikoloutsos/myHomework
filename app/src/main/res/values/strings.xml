@@ -6,8 +6,8 @@
     <string name="share">Share</string>
 
     <!-- Add/Edit Activity -->
-    <string name="activity_add_note_subject">Subject :</string>
-    <string name="activity_add_note_note">Note :</string>
+    <string name="activity_add_note_title">Title</string>
+    <string name="activity_add_note_description">Description</string>
     <string name="activity_add_note_importance">Importance :</string>
 
     <!--Settings Activity -->

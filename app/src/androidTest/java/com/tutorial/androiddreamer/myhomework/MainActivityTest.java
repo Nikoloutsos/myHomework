@@ -5,7 +5,6 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 
 import com.tutorial.androiddreamer.myhomework.Activities.MainActivity;
-import com.tutorial.androiddreamer.myhomework.Model.AppDatabase;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -30,38 +29,15 @@ public class MainActivityTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
     }
-
-    @Test
-    public void addNoteTest(){
-            onView(withId(R.id.fab_activity_main_add_note)).perform(click());
-            String str = ((Long)System.currentTimeMillis()).toString();
-
-            onView(withId(R.id.et_activity_add_note_subject)).perform(replaceText(str));
-            onView(withId(R.id.et_activity_add_note_note)).perform(replaceText("This is a note!"));
-            onView(withId(R.id.btn_menu_add_note_activity_save_note)).perform(click()); // Note is created
-
-
-        onView(withId(R.id.rv_activity_main))
-                .check(matches(hasDescendant(withText(str))));
-        onView(withId(R.id.rv_activity_main)).perform(RecyclerViewActions
-                .actionOnItemAtPosition(0,swipeLeft()));
-
-    }
-
-
-
 
 
     @Test
-    public void undoFunctionalityTest(){
+    public void undoFunctionalityTest() {
 
     }
-
-
-
 
 
 }

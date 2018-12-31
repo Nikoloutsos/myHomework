@@ -14,6 +14,7 @@
 
     <style name="DarkTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">@color/DarkColorAccent</item>
+        <item name="android:textColorHint">#f1f1f1</item>
 
 
     </style>
