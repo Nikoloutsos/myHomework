@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.marcoscg.materialtoast.MaterialToast;
 import com.tutorial.androiddreamer.myhomework.Helpers.ActivityMethods;
 import com.tutorial.androiddreamer.myhomework.R;
 import com.tutorial.androiddreamer.myhomework.ViewModels.AddNoteActivityViewModel;
@@ -138,9 +139,10 @@ public class AddNoteActivity extends AppCompatActivity {
             }else if(subject.trim().isEmpty()) shakeView(cardView1);
             else if(note.trim().isEmpty()) shakeView(cardView2);
 
-
-
-            Toast.makeText(this, "Please insert a subject and note", Toast.LENGTH_SHORT).show();
+            MaterialToast.makeText(this, getResources().getString(R.string.activity_add_note_please_insert_title_and_desc),
+                    R.drawable.ic_exclamation,
+                    Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
         Intent intent = new Intent();
