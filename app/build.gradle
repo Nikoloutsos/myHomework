@@ -96,4 +96,10 @@ dependencies {
     //MeterialToast
     implementation 'com.github.marcoscgdev:MaterialToast:1.0.1'
 
+    //Logger
+    implementation 'net.alexandroid.utils:mylog:1.2'
+
+    //Choco snackBar
+    implementation 'com.github.Pradyuman7:ChocoBar:V1.0'
+
 }

@@ -11,7 +11,7 @@
     <string name="activity_add_note_title">Title</string>
     <string name="activity_add_note_description">Description</string>
     <string name="activity_add_note_importance">Importance</string>
-    <string name="activity_add_note_please_insert_title_and_desc">Please insert a subject and note</string>
+    <string name="activity_add_note_please_insert_title_and_desc">Please insert title and description</string>
 
     <!--Settings Activity -->
     <string name="activity_settings_order_by">Order by :</string>

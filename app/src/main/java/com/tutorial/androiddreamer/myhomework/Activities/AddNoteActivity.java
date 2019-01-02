@@ -34,6 +34,8 @@ import com.tutorial.androiddreamer.myhomework.Helpers.ActivityMethods;
 import com.tutorial.androiddreamer.myhomework.R;
 import com.tutorial.androiddreamer.myhomework.ViewModels.AddNoteActivityViewModel;
 
+import net.alexandroid.utils.mylog.MyLog;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

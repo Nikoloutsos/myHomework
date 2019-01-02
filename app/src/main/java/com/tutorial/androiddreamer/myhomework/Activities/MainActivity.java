@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.marcoscg.materialtoast.MaterialToast;
+import com.pd.chocobar.ChocoBar;
 import com.tutorial.androiddreamer.myhomework.Model.ArchivedNote;
 import com.tutorial.androiddreamer.myhomework.R;
 
@@ -36,6 +37,8 @@ import com.tutorial.androiddreamer.myhomework.Model.Note;
 import com.tutorial.androiddreamer.myhomework.ViewModels.MainActivityViewModel;
 import com.tutorial.androiddreamer.myhomework.Adapters.PagedListNoteAdapter;
 import com.tutorial.androiddreamer.myhomework.Helpers.SwipeToDeleteCallback;
+
+import net.alexandroid.utils.mylog.MyLog;
 
 import java.util.Observable;
 
@@ -62,20 +65,13 @@ public class MainActivity extends AppCompatActivity {
     private int appearanceMode;
     private int orderMode;
 
-    @BindView(R.id.rv_activity_main)
-    RecyclerView recyclerView;
-    @BindView(R.id.fab_activity_main_add_note)
-    FloatingActionButton fabAddNote;
-    @BindView(R.id.cl_activity_main_empty_rv)
-    ConstraintLayout clEmptyRecyclerView;
-    @BindView(R.id.cl_activity_main)
-    CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.cl_activity_main_container)
-    ConstraintLayout constraintLayoutContainer;
-    @BindView(R.id.tc_activity_main_its_lonely)
-    TextView tvEmptyListLonely;
-    @BindView(R.id.tv_activity_main_get_started)
-    TextView tvGetStartedAddaNote;
+    @BindView(R.id.rv_activity_main) RecyclerView recyclerView;
+    @BindView(R.id.fab_activity_main_add_note) FloatingActionButton fabAddNote;
+    @BindView(R.id.cl_activity_main_empty_rv) ConstraintLayout clEmptyRecyclerView;
+    @BindView(R.id.cl_activity_main) CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.cl_activity_main_container) ConstraintLayout constraintLayoutContainer;
+    @BindView(R.id.tc_activity_main_its_lonely) TextView tvEmptyListLonely;
+    @BindView(R.id.tv_activity_main_get_started) TextView tvGetStartedAddaNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setUIThemeForElements();
         setTitle("My notes");
+
+
         fabAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,17 +238,21 @@ public class MainActivity extends AppCompatActivity {
         viewModel.setLastNote(note);
         viewModel.getNoteRepository().deleteNote(note);
         viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesDeleted();
-        Snackbar.make(coordinatorLayout, getResources().getString(R.string.note_deleted_succesfully), Snackbar.LENGTH_LONG)
-                .setAction(getResources().getString(R.string.undo_button_snackbar), new View.OnClickListener() {
+
+        ChocoBar.builder().setActivity(MainActivity.this).setActionText("UNDO")
+                .setActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (viewModel.getLastNote() != null) { //Fix bug where user taps at UNDO button furiously!
                             viewModel.getNoteRepository().insertNote(viewModel.getLastNote());
                             viewModel.deleteLastNote();
                         }
-
                     }
-                }).setActionTextColor(getResources().getColor(R.color.colorAccent)).show();
+                })
+                .setIcon(R.drawable.ic_delete_black_24dp)
+                .setText(getResources().getString(R.string.note_deleted_succesfully))
+                .setDuration(ChocoBar.LENGTH_LONG).build().show();
+
     }
 
     private void editNote(Note note) {
