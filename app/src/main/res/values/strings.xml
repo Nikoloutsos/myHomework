@@ -8,7 +8,7 @@
     <!-- Add/Edit Activity -->
     <string name="activity_add_note_title">Title</string>
     <string name="activity_add_note_description">Description</string>
-    <string name="activity_add_note_importance">Importance :</string>
+    <string name="activity_add_note_importance">Importance</string>
 
     <!--Settings Activity -->
     <string name="activity_settings_order_by">Order by :</string>

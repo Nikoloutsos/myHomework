@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +52,9 @@ public class AddNoteActivity extends AppCompatActivity {
     @BindView(R.id.et_activity_add_note_description) TextInputEditText etNote;
     @BindView(R.id.et_activity_add_note_description_layout) TextInputLayout etNoteLayout;
     @BindView(R.id.et_activity_add_note_subject_layout) TextInputLayout etSubjectLayout;
+    @BindView(R.id.cardView2) CardView cardView1;
+    @BindView(R.id.cardView3) CardView cardView2;
+    @BindView(R.id.cardView4) CardView cardView3;
 
 
 
@@ -129,10 +133,10 @@ public class AddNoteActivity extends AppCompatActivity {
 
         if (subject.trim().isEmpty() || note.trim().isEmpty()) {
             if(subject.trim().isEmpty() && note.trim().isEmpty()){
-                shakeView(etNoteLayout);
-                shakeView(etSubjectLayout);
-            }else if(subject.trim().isEmpty()) shakeView(etSubject);
-            else if(note.trim().isEmpty()) shakeView(etNote);
+                shakeView(cardView1);
+                shakeView(cardView2);
+            }else if(subject.trim().isEmpty()) shakeView(cardView1);
+            else if(note.trim().isEmpty()) shakeView(cardView2);
 
 
 
@@ -217,6 +221,9 @@ public class AddNoteActivity extends AppCompatActivity {
             etSubject.setTextColor(Color.WHITE);
             etNote.setHintTextColor(Color.WHITE);
             ActivityMethods.setNumberPickerTextColor(npImportance, Color.WHITE);
+            cardView1.setCardBackgroundColor(Color.GRAY);
+            cardView2.setCardBackgroundColor(Color.GRAY);
+            cardView3.setCardBackgroundColor(Color.GRAY);
         }
     }
 }
