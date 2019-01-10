@@ -102,4 +102,7 @@ dependencies {
     //Choco snackBar
     implementation 'com.github.Pradyuman7:ChocoBar:V1.0'
 
+    //Intro Activities
+    implementation 'agency.tango.android:material-intro-screen:0.0.5'
+
 }

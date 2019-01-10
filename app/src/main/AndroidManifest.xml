@@ -35,6 +35,10 @@
             android:name=".Activities.OverviewActivity"
             android:parentActivityName=".Activities.MainActivity" />
 
+        <activity
+            android:name=".Activities.IntroActivity"
+            android:theme="@style/Theme.Intro" />
+
     </application>
 
 </manifest>

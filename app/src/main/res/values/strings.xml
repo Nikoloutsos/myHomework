@@ -33,4 +33,20 @@
     <string name="keep_editing_button">KEEP EDITING</string>
     <string name="share_note_using">Share note using:</string>
 
+
+    <!--Intro Activity -->
+    <string name="intro_add_note_title">Add your Notes</string>
+    <string name="intro_add_note_description">Set high importance to your favorites one!</string>
+
+    <string name="intro_delete_note_title">Delete unwanted notes</string>
+    <string name="intro_delete_note_description">Get rid of unwelcome note by swiping left</string>
+
+    <string name="intro_archive_note_title">Archive your best-loved notes</string>
+    <string name="intro_archive_note_description">Save your favorite notes by long-clicking and selecting ARCHIVE</string>
+
+    <string name="intro_statistics_note_title">Boost your productivity</string>
+    <string name="intro_statistics_note_description">Increase your productivity by seeing statistics</string>
+
+
+
 </resources>

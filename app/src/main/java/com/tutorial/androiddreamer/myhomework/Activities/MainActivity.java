@@ -77,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        startIntro(); //Start info if user opens app for the first time!
         setUITheme();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setUIThemeForElements();
         setTitle("My notes");
+
+
+
 
 
         fabAddNote.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
 
                 return true;
+            case R.id.btn_menu_main_activity_intro:
+                startActivity(new Intent(this, IntroActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -310,6 +316,13 @@ public class MainActivity extends AppCompatActivity {
             tvEmptyListLonely.setTextColor(Color.WHITE);
             tvGetStartedAddaNote.setTextColor(Color.WHITE);
 
+        }
+    }
+
+    private void startIntro(){
+        if(!viewModel.getSharedPrefRepository().getSharedPreferencesDAO().hasUserSeenIntro()){
+            viewModel.getSharedPrefRepository().getSharedPreferencesDAO().setUserSeenIntro(true);
+            startActivity(new Intent(this, IntroActivity.class));
         }
     }
 }

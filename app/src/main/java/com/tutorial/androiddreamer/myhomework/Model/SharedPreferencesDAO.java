@@ -20,7 +20,7 @@ public class SharedPreferencesDAO {
     public static final String MY_SHARED_PREFERENCES_TOTAL_NOTES_DELETED = "com.tutorial.androiddreamer.myhomework.Model.TotalNotesDeleted";
     public static final String MY_SHARED_PREFERENCES_TOTAL_NOTES_SHARED = "com.tutorial.androiddreamer.myhomework.Model.TotalNotesShared";
     public static final String MY_SHARED_PREFERENCES_TOTAL_TUOA = "com.tutorial.androiddreamer.myhomework.Model.TotalTimesUserOpenApp";
-
+    public static final String MY_SHARED_PREFERENCES_HAS_USER_SEEN_INTRO = "com.tutorial.androiddreamer.myhomework.Model.HasUserSeenIntro";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedPreferencesStats;
@@ -44,6 +44,15 @@ public class SharedPreferencesDAO {
         return sharedPreferences.getInt(SettingsActivity.SHARED_PREFERENCE_ORDER, SettingsActivity.ORDER_TIME);
     }
 
+    public boolean hasUserSeenIntro(){
+        return sharedPreferences.getBoolean(MY_SHARED_PREFERENCES_HAS_USER_SEEN_INTRO, false);
+    }
+
+    public void setUserSeenIntro(boolean bool){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(MY_SHARED_PREFERENCES_HAS_USER_SEEN_INTRO, true);
+        editor.apply();
+}
     //Statistics
 
     /**

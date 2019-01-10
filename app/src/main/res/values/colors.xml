@@ -16,5 +16,14 @@
     <color name="DarkGrayBackground">#4d4d4d</color>
 
 
+    <color name="grey">#BDBDBD</color>
+
+    <!-- Intro activity -->
+    <color name="pink_red">#ff5252</color>
+    <color name="blue">#2196F3</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
+
+
 
 </resources>
