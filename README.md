@@ -6,7 +6,7 @@ myHomework is a simple android app allowing users to locally save their homework
 
 
 ## Todo-list
-- [ ] In MainActivity RecyclerView items should have same height.
+- [x] In MainActivity RecyclerView items should have same height.
 - [ ] Create a DisplayNoteActivity where user will only be able to see the note.
 - [ ] Make Unit and Instrumented tests.
 - [x] Refactor AddNoteActivity's UI.
