@@ -2,12 +2,15 @@ package com.tutorial.androiddreamer.myhomework.Activities;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -135,6 +138,7 @@ public class AddNoteActivity extends AppCompatActivity {
         int importance = npImportance.getValue();
 
         if (subject.trim().isEmpty() || note.trim().isEmpty()) {
+            vibrateDevice(250);
             if(subject.trim().isEmpty() && note.trim().isEmpty()){
                 shakeView(cardView1);
                 shakeView(cardView2);
@@ -216,10 +220,10 @@ public class AddNoteActivity extends AppCompatActivity {
     }
     private void setUIThemeForElements(){
         if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
-            cl_parentLayout.setBackgroundColor(Color.WHITE);
+            cl_parentLayout.setBackground(getDrawable(R.drawable.veneer_repeating));
             tv_importance.setTextColor(getResources().getColor(R.color.colorPrimary));
         }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
-            cl_parentLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
+            cl_parentLayout.setBackground(getDrawable(R.drawable.stardust_repeating));
             tv_importance.setTextColor(Color.WHITE);
             etNote.setTextColor(Color.WHITE);
             etSubject.setTextColor(Color.WHITE);
@@ -228,6 +232,16 @@ public class AddNoteActivity extends AppCompatActivity {
             cardView1.setCardBackgroundColor(Color.GRAY);
             cardView2.setCardBackgroundColor(Color.GRAY);
             cardView3.setCardBackgroundColor(Color.GRAY);
+        }
+    }
+
+    private void vibrateDevice(long ms){
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(ms);
         }
     }
 }

@@ -18,5 +18,7 @@ public class MyApplication extends Application {
         MyLog.setThreadIdVisibility(true);
         MyLog.setIsTimeVisible(false);
         MyLog.setTag("MyHomeworkTag");
+
+
     }
 }

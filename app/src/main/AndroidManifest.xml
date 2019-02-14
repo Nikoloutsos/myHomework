@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tutorial.androiddreamer.myhomework">
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".Application.MyApplication"
@@ -18,11 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.AddNoteActivity"
             android:parentActivityName=".Activities.MainActivity" />
-
         <activity
             android:name=".Activities.SettingsActivity"
             android:parentActivityName=".Activities.MainActivity" />
@@ -34,11 +35,13 @@
         <activity
             android:name=".Activities.OverviewActivity"
             android:parentActivityName=".Activities.MainActivity" />
-
         <activity
             android:name=".Activities.IntroActivity"
             android:theme="@style/Theme.Intro" />
 
+
+        <activity android:name=".Activities.DisplayNoteActivity"
+            android:parentActivityName=".Activities.MainActivity"/>
     </application>
 
 </manifest>

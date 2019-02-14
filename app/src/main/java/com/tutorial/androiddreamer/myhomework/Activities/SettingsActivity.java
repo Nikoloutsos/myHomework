@@ -176,11 +176,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
     private void setUIThemeForElements(){
         if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0){
-
+            constraintLayout.setBackground(getDrawable(R.drawable.veneer_repeating));
 
 
         }else if(viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1){
-            constraintLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
+            constraintLayout.setBackground(getDrawable(R.drawable.stardust_repeating));
             tvAppearance.setTextColor(Color.WHITE);
             tvOrderBy.setTextColor(Color.WHITE);
         }

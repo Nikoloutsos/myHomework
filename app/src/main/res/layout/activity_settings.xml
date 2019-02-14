@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cl_activity_settings"
-    tools:context=".Activities.SettingsActivity">
+    tools:context=".Activities.SettingsActivity"
+    android:background="@drawable/stardust_repeating">
 
     <TextView
         android:id="@+id/tv_order_by"

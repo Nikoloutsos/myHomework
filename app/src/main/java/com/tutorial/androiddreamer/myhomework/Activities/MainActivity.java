@@ -77,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        if (!viewModel.getSharedPrefRepository().getSharedPreferencesDAO().hasUserSeenIntro())
+            viewModel.getSharedPrefRepository()
+                    .getSharedPreferencesDAO()
+                    .saveSharedPreferences(
+                                viewModel.getSharedPrefRepository()
+                                        .getSharedPreferencesDAO().getSharedPrefOrder(), SettingsActivity.APPEARANCE_BLACK);
+
+
         startIntro(); //Start info if user opens app for the first time!
         setUITheme();
         setContentView(R.layout.activity_main);
@@ -156,19 +164,6 @@ public class MainActivity extends AppCompatActivity {
                     R.drawable.ic_add,
                     Toast.LENGTH_SHORT)
                     .show();
-        }
-
-        if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode == RESULT_OK) {
-            String subject = data.getStringExtra(EXTRA_SUBJECT);
-            String note = data.getStringExtra(EXTRA_NOTE);
-            int importance = data.getIntExtra(EXTRA_IMPORTANCE, 4);
-            int id = data.getIntExtra(EXTRA_ID, -1);
-
-
-            Note noteToBeUpdate = new Note(System.currentTimeMillis(), note, subject, importance);
-            noteToBeUpdate.setId(id);
-            viewModel.getNoteRepository().updateNote(noteToBeUpdate);
-            viewModel.getSharedPrefRepository().getSharedPreferencesDAO().increaseTotalNotesEdited();
         }
 
         if (requestCode == ALTER_SETTINGS_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -262,14 +257,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void editNote(Note note) {
-        Intent intent = new Intent(MainActivity.this, AddNoteActivity.class).setFlags(FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = new Intent(MainActivity.this, DisplayNoteActivity.class).setFlags(FLAG_ACTIVITY_SINGLE_TOP | FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(EXTRA_MODE, AddNoteActivity.MODE_EDIT_NOTE)
                 .putExtra(EXTRA_SUBJECT, note.getSubject())
                 .putExtra(EXTRA_NOTE, note.getDescription())
                 .putExtra(EXTRA_ID, note.getId())
                 .putExtra(EXTRA_IMPORTANCE, note.getPriority())
                 .putExtra(EXTRA_TIME, note.getTime());
-        startActivityForResult(intent, EDIT_NOTE_REQUEST_CODE);
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
@@ -310,12 +305,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUIThemeForElements() {
         if (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 0) {
+            constraintLayoutContainer.setBackground(getDrawable(R.drawable.veneer_repeating));
 
         } else if (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme() == 1) {
-            coordinatorLayout.setBackgroundColor(getResources().getColor(R.color.DarkGrayBackground));
+            constraintLayoutContainer.setBackground(getDrawable(R.drawable.stardust_repeating));
             tvEmptyListLonely.setTextColor(Color.WHITE);
             tvGetStartedAddaNote.setTextColor(Color.WHITE);
-
         }
     }
 

@@ -64,9 +64,6 @@ public class GraphHistoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setUIThemeForElements();
         fillPieChartWithData();
-
-        Log.d("aaaa", "onActivityCreated -->" + viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getTotalNotesDeleted());
-
     }
 
 
@@ -114,7 +111,7 @@ public class GraphHistoryFragment extends Fragment {
         colors.add(Color.GREEN);
         colors.add(Color.RED);
         colors.add(Color.parseColor("#FF8C00"));
-        colors.add(Color.DKGRAY);
+        colors.add(Color.MAGENTA);
         colors.add(Color.CYAN);
 
         PieDataSet pieDataSet = new PieDataSet(yEntrys, "");

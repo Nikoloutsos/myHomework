@@ -11,14 +11,16 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_activity_main_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/stardust_repeating">
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/note_item" />
+            tools:listitem="@layout/note_item"
+            />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cl_activity_main_empty_rv"

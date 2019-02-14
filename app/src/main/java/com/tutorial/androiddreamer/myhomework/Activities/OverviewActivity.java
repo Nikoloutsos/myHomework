@@ -75,11 +75,11 @@ public class OverviewActivity extends AppCompatActivity {
 
         switch (viewModel.getSharedPrefRepository().getSharedPreferencesDAO().getSharedPrefTheme()){
             case 0:
-
+                viewPager.setBackground(getDrawable(R.drawable.veneer_repeating));
                 break;
             case 1:
                 tabLayout.setBackgroundColor(Color.parseColor("#ff212121"));
-                viewPager.setBackgroundColor(Color.parseColor("#ff212121"));
+                viewPager.setBackground(getDrawable(R.drawable.stardust_repeating));
                 break;
         }
 
