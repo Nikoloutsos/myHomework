@@ -3,6 +3,7 @@ package com.tutorial.androiddreamer.myhomework.Fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tutorial.androiddreamer.myhomework.Activities.AddNoteActivity;
+import com.tutorial.androiddreamer.myhomework.Activities.BaseDisplayNoteActivity;
 import com.tutorial.androiddreamer.myhomework.Adapters.PagedListArchiveNoteAdapter;
 import com.tutorial.androiddreamer.myhomework.Model.ArchivedNote;
 import com.tutorial.androiddreamer.myhomework.R;
@@ -25,6 +28,13 @@ import com.tutorial.androiddreamer.myhomework.ViewModels.ArchivedNoteFragmentVie
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_ID;
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_IMPORTANCE;
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_MODE;
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_NOTE;
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_SUBJECT;
+import static com.tutorial.androiddreamer.myhomework.Activities.MainActivity.EXTRA_TIME;
 
 
 public class ArchivedNoteFragment extends Fragment {
@@ -54,13 +64,27 @@ public class ArchivedNoteFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(ArchivedNoteFragmentViewModel.class);
         setUIThemeForElements();
-        PagedListArchiveNoteAdapter.LongClickListener listener = new PagedListArchiveNoteAdapter.LongClickListener() {
+
+        adapter = new PagedListArchiveNoteAdapter(new PagedListArchiveNoteAdapter.LongClickListener() {
             @Override
             public void onLongClick(ArchivedNote archivedNote) {
                 viewModel.getArchivedNoteRepository().deleteArchivedNote(archivedNote);
             }
-        };
-        adapter = new PagedListArchiveNoteAdapter(listener);
+        },
+                new PagedListArchiveNoteAdapter.SimpleClickListener() {
+                    @Override
+                    public void onSimpleClickListener(ArchivedNote note) {
+                        Intent intent = new Intent(ArchivedNoteFragment.this.getContext(), BaseDisplayNoteActivity.class);
+                        intent.putExtra(EXTRA_MODE, AddNoteActivity.MODE_EDIT_NOTE)
+                                .putExtra(EXTRA_SUBJECT, note.getSubject())
+                                .putExtra(EXTRA_NOTE, note.getDescription())
+                                .putExtra(EXTRA_ID, note.getId())
+                                .putExtra(EXTRA_IMPORTANCE, note.getPriority())
+                                .putExtra(EXTRA_TIME, note.getTime());
+                        startActivity(intent);
+                    }
+                });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

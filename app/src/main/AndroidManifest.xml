@@ -42,6 +42,9 @@
 
         <activity android:name=".Activities.DisplayNoteActivity"
             android:parentActivityName=".Activities.MainActivity"/>
+
+        <activity android:name=".Activities.BaseDisplayNoteActivity"
+            android:parentActivityName=".Activities.OverviewActivity"/>
     </application>
 
 </manifest>

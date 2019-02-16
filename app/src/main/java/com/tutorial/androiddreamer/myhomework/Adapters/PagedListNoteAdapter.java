@@ -119,9 +119,6 @@ public class PagedListNoteAdapter extends PagedListAdapter<Note, PagedListNoteAd
         public void onLongClick(Note note, String str);
     }
 
-    public OnItemClickListener getListener() {
-        return listener;
-    }
 
     @Override
     public void submitList(PagedList<Note> pagedList) {

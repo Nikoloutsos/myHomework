@@ -26,9 +26,11 @@ import butterknife.ButterKnife;
 
 public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, PagedListArchiveNoteAdapter.ArchivedNoteViewHolder > {
     LongClickListener listener;
-    public PagedListArchiveNoteAdapter(LongClickListener listener) {
+    SimpleClickListener listener2;
+    public PagedListArchiveNoteAdapter(LongClickListener listener, SimpleClickListener listener2) {
         super(DIFF_CALLBACK);
         this.listener = listener;
+        this.listener2 = listener2;
     }
 
     private static final DiffUtil.ItemCallback<ArchivedNote> DIFF_CALLBACK = new DiffUtil.ItemCallback<ArchivedNote>() {
@@ -52,6 +54,12 @@ public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, 
         public ArchivedNoteViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener2.onSimpleClickListener(getItem(getAdapterPosition()));
+                }
+            });
             itemView.setOnCreateContextMenuListener(this);
         }
 
@@ -90,7 +98,12 @@ public class PagedListArchiveNoteAdapter extends PagedListAdapter<ArchivedNote, 
     }
 
     public interface LongClickListener{
-        public void onLongClick(ArchivedNote archivedNote);
+        void onLongClick(ArchivedNote archivedNote);
     }
+
+    public interface SimpleClickListener{
+        void onSimpleClickListener(ArchivedNote archivedNote);
+    }
+
 
 }
