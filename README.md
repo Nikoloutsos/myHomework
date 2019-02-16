@@ -24,7 +24,7 @@ myHomework is a simple android app allowing users to locally save their homework
 
 
 ## Contributors
-Xanthos Xanthopoulos [@XanthosXanthopoulos](https://github.com/XanthosXanthopoulos)
+Xanthos Xanthopoulos [@XanthosXanthopoulos](https://github.com/XanthosXanthopoulos) for making svg pictures
 
 
 
