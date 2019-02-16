@@ -11,6 +11,17 @@ myHomework is a simple android app allowing users to locally save their homework
 - [ ] Make Unit and Instrumented tests.
 - [x] Refactor AddNoteActivity's UI.
 - [x] Add text-to-speach functionality
+- [ ] Make a better settings Activity.
+- [ ] Add more statistics (Frequency that user uses the app and what time... etc)
+- [ ] Allow mark-up in note text and pictures.
+- [ ] Translate strings in strings.xml in other languages
+- [ ] Allow user to backUp his notes in cloud.
+- [ ] Add search funtionality in toolbar (It should have animation) .
+- [ ] Optimize app so that it supports landscape mode and devices with different screen sizes
+- [ ] Make beautiful photos that shows the app ( they will be used in playStore)
+- [ ] Allow user to use a custom image as background or choose his own colors for appbar and background
+- [ ] Add option where if enabled light them will be used in mornign and dark theme in night.
+
 
 ## Contributors
 Xanthos Xanthopoulos [@XanthosXanthopoulos](https://github.com/XanthosXanthopoulos)
